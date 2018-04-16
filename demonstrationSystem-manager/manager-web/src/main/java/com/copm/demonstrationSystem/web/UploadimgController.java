@@ -1,6 +1,7 @@
 package com.copm.demonstrationSystem.web;
 
 import com.copm.demonstrationSystem.util.FileUtil;
+import com.copm.demonstrationSystem.util.RandomID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -37,17 +38,19 @@ public class UploadimgController {
     public String uploadImg(@RequestParam("file") MultipartFile file,
                      HttpServletRequest request) {
         String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
-
-        String filePath = "src/main/resources/public/";
-        System.out.println("filePath:  "+filePath);
+        String temp = file.getOriginalFilename();
+        String name = file.getOriginalFilename();
+        String suffix = name.substring(name.lastIndexOf(".")+1);
+        String fileName = RandomID.randomString()+"."+suffix;
+        String filePath = "E:\\IntelliJ Idea-Pro\\demonstration-System\\demonstrationSystem-manager\\manager-web\\src\\main\\resources\\static\\image/";
+        System.out.println("fileName:  "+fileName);
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {
             // TODO: handle exception
         }
         //返回json
-        return "uploadimg success";
+        return fileName;
     }
 
     @RequestMapping("/index")
