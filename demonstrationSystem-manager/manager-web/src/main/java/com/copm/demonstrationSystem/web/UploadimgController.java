@@ -38,12 +38,16 @@ public class UploadimgController {
     public String uploadImg(@RequestParam("file") MultipartFile file,
                      HttpServletRequest request) {
         String contentType = file.getContentType();
-        String temp = file.getOriginalFilename();
+        //上传文件默认名字
         String name = file.getOriginalFilename();
+        //文件后缀截取
         String suffix = name.substring(name.lastIndexOf(".")+1);
+        //随机字符串，自定义文件名
         String fileName = RandomID.randomString()+"."+suffix;
+        //存储路径，绝对路径
         String filePath = "E:\\IntelliJ Idea-Pro\\demonstration-System\\demonstrationSystem-manager\\manager-web\\src\\main\\resources\\static\\image/";
-        System.out.println("fileName:  "+fileName);
+
+        System.out.println("fileName:  "+fileName+" || "+"contentType:  "+contentType);
         try {
             FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {
